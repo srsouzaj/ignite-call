@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Heading, MultiStep, Text, TextInput } from '@ignite-ui/react'
+import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 import { ArrowRight } from 'phosphor-react'
 import { useEffect } from 'react'
@@ -35,7 +36,11 @@ export default function Register() {
         username: data.username,
       })
     } catch (e) {
-      console.log(e)
+      if (e instanceof AxiosError && e?.response?.data?.message) {
+        alert(e.response.data.message)
+        return
+      }
+      console.error(e)
     }
   }
 
