@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { ArrowRight } from 'phosphor-react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { api } from '../../lib/axios'
 import { RegisterFormData } from '../../models/interfaces/RegisterForm.interface'
 import { registerFormSchema } from '../../models/schemas/RegisterForm.schema'
 
@@ -27,8 +28,15 @@ export default function Register() {
     }
   }, [router.query?.username, setValue])
 
-  function handleRegister(data: RegisterFormData) {
-    console.log(data)
+  const handleRegister = async (data: RegisterFormData) => {
+    try {
+      await api.post('/users', {
+        name: data.name,
+        username: data.username,
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (
