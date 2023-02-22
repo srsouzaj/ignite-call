@@ -1,3 +1,4 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
     Button,
     Checkbox,
@@ -8,18 +9,19 @@ import {
 } from '@ignite-ui/react'
 import { ArrowRight } from 'phosphor-react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { TimeIntervalsFormData } from '../../../models/interfaces/TimeINtervals.interface'
+import { timeIntervalsFormSchema } from '../../../models/schemas/TimeIntervals.schema'
 import { getWeekDays } from '../../../utils/get-week-days'
 import { Container, Header } from '../styles'
+
 import {
+    FormError,
     IntervalBox,
     IntervalContainer,
     IntervalDay,
     IntervalInputs,
     IntervalItem,
 } from './styles'
-
-const timeIntervalsFormSchema = z.object({})
 
 export default function TimeIntervals() {
     const {
@@ -29,6 +31,7 @@ export default function TimeIntervals() {
         watch,
         formState: { isSubmitting, errors },
     } = useForm({
+        resolver: zodResolver(timeIntervalsFormSchema),
         defaultValues: {
             intervals: [
                 { weekDay: 0, enabled: false, startTime: '08:00', endTime: '18:00' },
@@ -49,7 +52,9 @@ export default function TimeIntervals() {
 
     const intervals = watch('intervals')
 
-    async function handleSetTimeIntervals() { }
+    async function handleSetTimeIntervals(data: TimeIntervalsFormData) {
+        console.log(data)
+    }
 
     return (
         <Container>
@@ -103,6 +108,11 @@ export default function TimeIntervals() {
                         )
                     })}
                 </IntervalContainer>
+
+                {errors.intervals && (
+                    <FormError size="sm">{errors.intervals.message}</FormError>
+                )}
+
                 <Button type="submit" disabled={isSubmitting}>
                     Próximo passo
                     <ArrowRight />
