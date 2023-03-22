@@ -11,7 +11,7 @@ import {
   CalendarTitle,
 } from './styles'
 
-interface CalendarWeek {
+interface CalendarWeekInterface {
   week: number
   days: Array<{
     date: dayjs.Dayjs
@@ -19,7 +19,7 @@ interface CalendarWeek {
   }>
 }
 
-type CalendarWeeks = CalendarWeek[]
+type CalendarWeeks = CalendarWeekInterface[]
 
 interface CalendarInterface {
   selectedDate: Date | null
