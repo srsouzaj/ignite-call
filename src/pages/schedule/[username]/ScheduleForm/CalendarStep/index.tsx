@@ -8,7 +8,7 @@ import {
 } from './styles'
 
 export function CalendarStep() {
-  const isDateSelected = true
+  const isDateSelected = false
 
   return (
     <Container isTimePickerOpen={isDateSelected}>
@@ -17,7 +17,7 @@ export function CalendarStep() {
       {isDateSelected && (
         <TimePicker>
           <TimePickerHeader>
-            terça-feira <span>20 de setembro</span>
+            terça-feira <span>19 de Março</span>
           </TimePickerHeader>
 
           <TimePickerList>

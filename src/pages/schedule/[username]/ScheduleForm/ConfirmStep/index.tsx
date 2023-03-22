@@ -25,7 +25,7 @@ export function ConfirmStep() {
       <FormHeader>
         <Text>
           <CalendarBlank />
-          22 de Setembro de 2022
+          23 de Abril de 2023
         </Text>
         <Text>
           <Clock />
