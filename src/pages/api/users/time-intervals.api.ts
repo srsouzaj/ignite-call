@@ -1,9 +1,19 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getServerSession } from 'next-auth'
+import { getServerSession } from 'next-auth/next'
+
+import { z } from 'zod'
 import { prisma } from '../../../lib/prisma'
-import { timeIntervalsBodySchema } from '../../../models/schemas/timeIntervalsBody.schema'
 import { buildNextAuthOptions } from '../auth/[...nextauth].api'
 
+const timeIntervalsBodySchema = z.object({
+  intervals: z.array(
+    z.object({
+      weekDay: z.number(),
+      startTimeInMinutes: z.number(),
+      endTimeInMinutes: z.number(),
+    }),
+  ),
+})
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,

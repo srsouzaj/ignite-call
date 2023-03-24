@@ -11,7 +11,7 @@ import {
   CalendarTitle,
 } from './styles'
 
-interface CalendarWeek {
+interface CalendarWeekInterface {
   week: number
   days: Array<{
     date: dayjs.Dayjs
@@ -19,14 +19,14 @@ interface CalendarWeek {
   }>
 }
 
-type CalendarWeeks = CalendarWeek[]
+type CalendarWeeks = CalendarWeekInterface[]
 
-interface CalendarProps {
+interface CalendarInterface {
   selectedDate: Date | null
   onDateSelected: (date: Date) => void
 }
 
-export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
+export function Calendar({ selectedDate, onDateSelected }: CalendarInterface) {
   const [currentDate, setCurrentDate] = useState(() => {
     return dayjs().set('date', 1)
   })
