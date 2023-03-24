@@ -4,7 +4,7 @@ import { prisma } from '../../../lib/prisma'
 import { ScheduleForm } from './ScheduleForm'
 import { Container, UserHeader } from './styles'
 
-interface ScheduleInterface {
+interface ScheduleProps {
   user: {
     name: string
     bio: string
@@ -12,15 +12,15 @@ interface ScheduleInterface {
   }
 }
 
-export default function Schedule({ user }: ScheduleInterface) {
+export default function Schedule({ user }: ScheduleProps) {
   return (
     <Container>
-      <title> Ignite Call || Agenda de {user.name} </title>
       <UserHeader>
         <Avatar src={user.avatarUrl} />
         <Heading>{user.name}</Heading>
         <Text>{user.bio}</Text>
       </UserHeader>
+
       <ScheduleForm />
     </Container>
   )

@@ -11,7 +11,7 @@ import {
   CalendarTitle,
 } from './styles'
 
-interface CalendarWeekInterface {
+interface CalendarWeek {
   week: number
   days: Array<{
     date: dayjs.Dayjs
@@ -19,33 +19,34 @@ interface CalendarWeekInterface {
   }>
 }
 
-type CalendarWeeks = CalendarWeekInterface[]
+type CalendarWeeks = CalendarWeek[]
 
-interface CalendarInterface {
+interface CalendarProps {
   selectedDate: Date | null
   onDateSelected: (date: Date) => void
 }
 
-export const Calendar = ({
-  selectedDate,
-  onDateSelected,
-}: CalendarInterface) => {
+export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
   const [currentDate, setCurrentDate] = useState(() => {
     return dayjs().set('date', 1)
   })
-  const shortWeekDays = getWeekDays({ short: true })
-  const currentMonth = currentDate.format('MMMM')
-  const currentYear = currentDate.format('YYYY')
 
   function handlePreviousMonth() {
     const previousMonth = currentDate.subtract(1, 'month')
+
     setCurrentDate(previousMonth)
   }
 
   function handleNextMonth() {
     const nextMonth = currentDate.add(1, 'month')
+
     setCurrentDate(nextMonth)
   }
+
+  const shortWeekDays = getWeekDays({ short: true })
+
+  const currentMonth = currentDate.format('MMMM')
+  const currentYear = currentDate.format('YYYY')
 
   const calendarWeeks = useMemo(() => {
     const daysInMonthArray = Array.from({
@@ -107,14 +108,13 @@ export const Calendar = ({
     return calendarWeeks
   }, [currentDate])
 
-  console.log(calendarWeeks)
-
   return (
     <CalendarContainer>
       <CalendarHeader>
         <CalendarTitle>
           {currentMonth} <span>{currentYear}</span>
         </CalendarTitle>
+
         <CalendarActions>
           <button onClick={handlePreviousMonth} title="Previous month">
             <CaretLeft />
@@ -124,6 +124,7 @@ export const Calendar = ({
           </button>
         </CalendarActions>
       </CalendarHeader>
+
       <CalendarBody>
         <thead>
           <tr>
