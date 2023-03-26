@@ -13,25 +13,25 @@ import {
   CalendarHeader,
   CalendarTitle,
 } from './styles'
-interface CalendarWeekInterface {
+interface CalendarWeek {
   week: number
   days: Array<{
     date: dayjs.Dayjs
-    disabled: boolean
+    disabled: boolean | undefined
   }>
 }
 
-type CalendarWeeks = CalendarWeekInterface[]
+type CalendarWeeks = CalendarWeek[]
 
-interface BlockedDatesInterface {
+interface BlockedDates {
   blockedWeekDays: number[]
 }
 
-interface CalendarInterface {
+interface CalendarProps {
   selectedDate: Date | null
   onDateSelected: (date: Date) => void
 }
-export function Calendar({ selectedDate, onDateSelected }: CalendarInterface) {
+export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
   const [currentDate, setCurrentDate] = useState(() => {
     return dayjs().set('date', 1)
   })
@@ -53,7 +53,7 @@ export function Calendar({ selectedDate, onDateSelected }: CalendarInterface) {
 
   const username = String(router.query.username)
 
-  const { data: blockedDates } = useQuery<BlockedDatesInterface>(
+  const { data: blockedDates } = useQuery<BlockedDates>(
     ['blocked-dates', currentDate.get('year'), currentDate.get('month')],
     async () => {
       const response = await api.get(`/users/${username}/blocked-dates`, {
