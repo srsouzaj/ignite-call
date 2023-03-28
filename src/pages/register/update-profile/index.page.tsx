@@ -18,7 +18,7 @@ import { useForm } from 'react-hook-form'
 import { api } from '../../../lib/axios'
 import { UpdateProfileData } from '../../../models/interfaces/updateProfile.interface'
 import { updateProfileSchema } from '../../../models/schemas/updateProfile.schema'
-import { buildNextAuthOptions } from '../../api/auth/[...nextauth].api'
+import { buildNextAuthOptions } from '../../api/auth/[...nextAuth].api'
 
 import { Container, Header } from '../styles'
 import { FormAnnotation, ProfileBox } from './styles'

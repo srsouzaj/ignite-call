@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth/next'
 
 import { z } from 'zod'
 import { prisma } from '../../../lib/prisma'
-import { buildNextAuthOptions } from '../auth/[...nextauth].api'
+import { buildNextAuthOptions } from '../auth/[...nextAuth].api'
 
 const timeIntervalsBodySchema = z.object({
   intervals: z.array(
