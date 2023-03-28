@@ -4,6 +4,11 @@ import { useRouter } from 'next/router'
 import { CaretLeft, CaretRight } from 'phosphor-react'
 import { useMemo, useState } from 'react'
 import { api } from '../../lib/axios'
+import {
+  BlockedDates,
+  CalendarInterface,
+  CalendarWeeks,
+} from '../../models/interfaces/Calendar.interface'
 import { getWeekDays } from '../../utils/get-week-days'
 import {
   CalendarActions,
@@ -13,27 +18,11 @@ import {
   CalendarHeader,
   CalendarTitle,
 } from './styles'
-interface CalendarWeek {
-  week: number
-  days: Array<{
-    date: dayjs.Dayjs
-    disabled: boolean
-  }>
-}
 
-type CalendarWeeks = CalendarWeek[]
-
-interface BlockedDates {
-  blockedWeekDays: number[]
-  blockedDates: number[]
-}
-
-interface CalendarProps {
-  selectedDate: Date | null
-  onDateSelected: (date: Date) => void
-}
-
-export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
+export const Calendar = ({
+  selectedDate,
+  onDateSelected,
+}: CalendarInterface) => {
   const [currentDate, setCurrentDate] = useState(() => {
     return dayjs().set('date', 1)
   })
