@@ -25,12 +25,14 @@ type CalendarWeeks = CalendarWeek[]
 
 interface BlockedDates {
   blockedWeekDays: number[]
+  blockedDates: number[]
 }
 
 interface CalendarProps {
   selectedDate: Date | null
   onDateSelected: (date: Date) => void
 }
+
 export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
   const [currentDate, setCurrentDate] = useState(() => {
     return dayjs().set('date', 1)
@@ -43,10 +45,12 @@ export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
 
     setCurrentDate(previousMonth)
   }
+
   function handleNextMonth() {
     const nextMonth = currentDate.add(1, 'month')
     setCurrentDate(nextMonth)
   }
+
   const shortWeekDays = getWeekDays({ short: true })
   const currentMonth = currentDate.format('MMMM')
   const currentYear = currentDate.format('YYYY')
@@ -59,7 +63,7 @@ export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
       const response = await api.get(`/users/${username}/blocked-dates`, {
         params: {
           year: currentDate.get('year'),
-          month: currentDate.get('month'),
+          month: currentDate.get('month') + 1,
         },
       })
 
@@ -85,16 +89,20 @@ export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
         return currentDate.subtract(i + 1, 'day')
       })
       .reverse()
+
     const lastDayInCurrentMonth = currentDate.set(
       'date',
       currentDate.daysInMonth(),
     )
+
     const lastWeekDay = lastDayInCurrentMonth.get('day')
+
     const nextMonthFillArray = Array.from({
       length: 7 - (lastWeekDay + 1),
     }).map((_, i) => {
       return lastDayInCurrentMonth.add(i + 1, 'day')
     })
+
     const calendarDays = [
       ...previousMonthFillArray.map((date) => {
         return { date, disabled: true }
@@ -104,13 +112,15 @@ export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
           date,
           disabled:
             date.endOf('day').isBefore(new Date()) ||
-            blockedDates.blockedWeekDays.includes(date.get('day')),
+            blockedDates.blockedWeekDays.includes(date.get('day')) ||
+            blockedDates.blockedDates.includes(date.get('date')),
         }
       }),
       ...nextMonthFillArray.map((date) => {
         return { date, disabled: true }
       }),
     ]
+
     const calendarWeeks = calendarDays.reduce<CalendarWeeks>(
       (weeks, _, i, original) => {
         const isNewWeek = i % 7 === 0
